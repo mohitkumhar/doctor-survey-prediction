@@ -186,7 +186,7 @@
     <div class="container">
         <h1>Doctor Survey Prediction</h1>
         <form action="/" method="post">
-            <label for="time">Enter Time (Hour):</label>
+            <label for="time">Enter Time (24 - Hour format):</label>
             <input type="number" id="time" name="time" min="0" max="23" required value="{{ time_input }}" />
             <button type="submit" name="action" value="predict">Predict</button>
 
