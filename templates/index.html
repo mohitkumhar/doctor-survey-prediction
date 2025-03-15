@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Survey Prediction</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafc;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            color: red;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .table-container {
+            margin-top: 30px;
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-height: 400px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            background-color: #fafafa;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #444;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .download-options {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 45%;
+            box-sizing: border-box;
+        }
+
+        .download-btn:hover {
+            background-color: #1976D2;
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .download-btn {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Doctor Survey Prediction</h1>
+        <form action="/" method="post">
+            <label for="time">Enter Time (Hour):</label>
+            <input type="number" id="time" name="time" min="0" max="23" required value="{{ time_input }}" />
+            <button type="submit" name="action" value="predict">Predict</button>
+
+            {% if message %}
+            <p class="message">{{ message }}</p>
+            {% endif %}
+
+            {% if best_doctors is not none %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for column in best_doctors.columns %}
+                            <th>{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in best_doctors.itertuples(index=False) %}
+                        <tr>
+                            {% for value in row %}
+                            <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="download-options">
+                <button type="submit" name="action" value="download_csv" class="download-btn">Download CSV</button>
+                <button type="submit" name="action" value="download_excel" class="download-btn">Download Excel</button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+
+</body>
+
+</html>
